@@ -14,23 +14,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dummy.entity.Author;
 import dummy.entity.Book;
-import dummy.repo.CustomUserAuthorRepository;
-import dummy.repo.CustomUserBookRepository;
+import dummy.projection.AuthorProjection;
+import dummy.projection.BookProjection;
+import dummy.repo.AuthorRepository;
+import dummy.repo.BookRepository;
 
 @RestController
 public class MyController {
 	
 	@Autowired
-	CustomUserBookRepository bookRepository;
+	BookRepository bookRepository;
 	
 	@Autowired
-	CustomUserAuthorRepository authRepository;
+	AuthorRepository authRepository;
 	
 	@GetMapping(value = "/findbooks",produces = MediaType.APPLICATION_JSON_VALUE,
 			headers = "Accept=application/json",consumes = MediaType.APPLICATION_JSON_VALUE)
-	public List<Book> findAllbooks(Long authorid) {
-		return bookRepository.findAllBooksgivenauthorID(authorid);
-	}
+	public List<BookProjection> findAllbooks(@RequestParam("authorid")Long authorid) {
+		return bookRepository.findAllBooksgivenauthorID(authorid); 
+	} 
 	
 	@PostMapping(value = "/addbooks",produces = MediaType.APPLICATION_JSON_VALUE,
 			headers = "Accept=application/json")
@@ -44,17 +46,17 @@ public class MyController {
 		 bookRepository.insertAllItems(authors, 0);
 	}
 	
-	@GetMapping(value = "/addauthors",produces = MediaType.APPLICATION_JSON_VALUE,
+	@GetMapping(value = "/findallauthors",produces = MediaType.APPLICATION_JSON_VALUE,
 			headers = "Accept=application/json",consumes = MediaType.APPLICATION_JSON_VALUE)
-	public List<Author> findAllauthors(Long isbn) {
+	public List<AuthorProjection> findAllauthors(@RequestParam("isbn") Long isbn) {
 		 return authRepository.findAllAuthorsgivenISBN(isbn);
 	} 
 	
 	@PutMapping(value = "/updateauthors",produces = MediaType.APPLICATION_JSON_VALUE,
 			headers = "Accept=application/json",consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void updateauthors(@RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname,@RequestParam("isbn") Long isbn) {
+	public void updateauthors(@RequestParam("authors")List<Author> authors) {
 		
-		 authRepository.updateAllAuthor(findAllauthors(isbn), firstname, lastname, 5);
+		 authRepository.updateAllAuthor(authors);
 	} 
 	
 	@DeleteMapping(value = "/deletebooks",produces = MediaType.APPLICATION_JSON_VALUE,
