@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,24 +16,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name = "AUTHOR")
+@Table
+@AllArgsConstructor
+@NoArgsConstructor
 public class Author {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "AUTHORID")
-	private long AuthorID;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	private long Authorid;
 	
-	@Column(name = "FIRSTNAME")
 	private String firstname;
 	
-	@Column(name = "LASTNAME")
 	private String lastname;
 	
 	@ManyToMany(targetEntity = Book.class,
 			cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy = "authors")
 	public Set<Book> books = new HashSet<>();
+	
 }
