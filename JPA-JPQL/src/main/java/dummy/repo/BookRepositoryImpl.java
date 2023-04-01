@@ -3,7 +3,6 @@ package dummy.repo;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
@@ -31,34 +30,5 @@ public class BookRepositoryImpl{
 						em.clear();
 					}
 			    }
-	}
-
-	@SuppressWarnings("unused")
-	public void insertAllItems(List<?> collections,int batchSize) {
-		EntityTransaction entityTransaction = em.getTransaction();
-		try { 
-		    entityTransaction.begin();
-		 
-		    for (int i = 0; i < collections.size(); i++) {
-		        if (i > 0 && i % batchSize == 0) {
-		            entityTransaction.commit();
-		            entityTransaction.begin();
-		 
-		            em.clear();
-		        }
-		         
-		        em.persist(collections.get(i)); 
-		    }
-		 
-		    entityTransaction.commit();
-		} catch (RuntimeException e) {
-		    if (entityTransaction.isActive()) {
-		        entityTransaction.rollback();
-		        
-		    }
-		    throw e;
-		} finally {
-		    em.close();
-		}
 	} 
 }
