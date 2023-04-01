@@ -14,7 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+//import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +28,7 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(value = {"authors"}) // here's also another choice for solving infinite recursion
 public class Book {
 
 	@Id
@@ -48,11 +50,11 @@ public class Book {
 	 // to avoid stackoverflowerror for recursive calls using manytomany
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	/* to avoid infinite recursion 
+	/* to avoid avoid infinite recursion 
 	 * without ignoring getters/setters during serialization.
 	 * It's the back part of reference.
 	 * Also used in @ManyToOne
 	 */
-	@JsonBackReference
+	//@JsonBackReference
 	private Set<Author> authors = new HashSet<>();
 }
