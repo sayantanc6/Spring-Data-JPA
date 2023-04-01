@@ -3,6 +3,7 @@ package dummy.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dummy.entity.Author;
 import dummy.entity.Book;
-import dummy.projection.AuthorProjection;
-import dummy.projection.BookProjection;
 import dummy.repo.AuthorRepository;
 import dummy.repo.BookRepository;
 
@@ -28,29 +27,31 @@ public class MyController {
 	@Autowired
 	AuthorRepository authRepository;
 	
+	@ConditionalOnProperty(name = "withprojections",havingValue = "no")
 	@GetMapping(value = "/findbooks",produces = MediaType.APPLICATION_JSON_VALUE,
 			headers = "Accept=application/json",consumes = MediaType.APPLICATION_JSON_VALUE)
-	public List<BookProjection> findAllbooks(@RequestParam("authorid")Long authorid) {
+	public List<Book> findAllbooks(@RequestParam("authorid")Long authorid) {
 		return bookRepository.findAllBooksgivenauthorID(authorid); 
-	} 
+	}
 	
 	@PostMapping(value = "/addbooks",produces = MediaType.APPLICATION_JSON_VALUE,
 			headers = "Accept=application/json")
 	public void addAllbooks(@RequestBody List<Book> books) {
-		 bookRepository.insertAllItems(books, 5);
+		 bookRepository.saveAll(books); 
 	}
 	
 	@PostMapping(value = "/addauthors",produces = MediaType.APPLICATION_JSON_VALUE,
 			headers = "Accept=application/json")
 	public void addAllauthors(@RequestBody List<Author> authors) {
-		 bookRepository.insertAllItems(authors, 0);
+		 authRepository.saveAll(authors); 
 	}
 	
+	@ConditionalOnProperty(name = "withprojections",havingValue = "no")
 	@GetMapping(value = "/findallauthors",produces = MediaType.APPLICATION_JSON_VALUE,
 			headers = "Accept=application/json",consumes = MediaType.APPLICATION_JSON_VALUE)
-	public List<AuthorProjection> findAllauthors(@RequestParam("isbn") Long isbn) {
+	public List<Author> findAllauthors(@RequestParam("isbn") Long isbn) {
 		 return authRepository.findAllAuthorsgivenISBN(isbn);
-	} 
+	}
 	
 	@PutMapping(value = "/updateauthors",produces = MediaType.APPLICATION_JSON_VALUE,
 			headers = "Accept=application/json",consumes = MediaType.APPLICATION_JSON_VALUE)
