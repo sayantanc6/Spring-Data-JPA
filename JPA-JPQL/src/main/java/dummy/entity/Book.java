@@ -26,14 +26,14 @@ import lombok.ToString;
 @Entity
 @Table
 @Data
-@AllArgsConstructor
+@AllArgsConstructor 
 @NoArgsConstructor
-@JsonIgnoreProperties(value = {"authors"}) // here's also another choice for solving infinite recursion
+@JsonIgnoreProperties(value = {"authors","isbn"}) // here's also another choice for solving infinite recursion
 public class Book {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-	private long ISBN;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long isbn;
 	
 	private String author;
 	  
