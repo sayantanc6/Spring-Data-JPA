@@ -1,5 +1,67 @@
-{"properties": [{
-  "name": "encrypt.key",
-  "type": "java.lang.String",
-  "description": "A description for 'encrypt.key'"
-}]}
+{"properties": [
+  {
+    "name": "encrypt.key",
+    "type": "java.lang.String",
+    "description": "A description for 'encrypt.key'"
+  },
+  {
+    "name": "experimental",
+    "type": "java.lang.String",
+    "description": "A description for 'experimental'"
+  },
+  {
+    "name": "spring.sql.init.mode",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.sql.init.mode'"
+  },
+  {
+    "name": "hibernate.dialect.storage_engine",
+    "type": "java.lang.String",
+    "description": "A description for 'hibernate.dialect.storage_engine'"
+  },
+  {
+    "name": "withoutprojections",
+    "type": "java.lang.String",
+    "description": "A description for 'withoutprojections'"
+  },
+  {
+    "name": "withprojections",
+    "type": "java.lang.String",
+    "description": "A description for 'withprojections'"
+  },
+  {
+    "name": "hibernate.show_sql",
+    "type": "java.lang.String",
+    "description": "A description for 'hibernate.show_sql'"
+  },
+  {
+    "name": "log4j.logger.org.hibernate.SQL",
+    "type": "java.lang.String",
+    "description": "A description for 'log4j.logger.org.hibernate.SQL'"
+  },
+  {
+    "name": "log4j.logger.org.hibernate.type",
+    "type": "java.lang.String",
+    "description": "A description for 'log4j.logger.org.hibernate.type'"
+  },
+  {
+    "name": "log4j.logger.org.hibernate.SQL",
+    "type": "java.lang.String",
+    "description": "A description for 'log4j.logger.org.hibernate.SQL'"
+  },
+  {
+    "name": "log4j.logger.org.hibernate.SQL",
+    "type": "java.lang.String",
+    "description": "A description for 'log4j.logger.org.hibernate.SQL'"
+  },
+  {
+    "name": "log4j.logger.org.hibernate.SQL",
+    "type": "java.lang.String",
+    "description": "A description for 'log4j.logger.org.hibernate.SQL'"
+  },
+  {
+    "name": "spring.devtools.restart.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.devtools.restart.enabled'"
+  }
+]}
