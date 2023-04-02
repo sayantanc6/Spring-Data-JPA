@@ -16,6 +16,6 @@ public interface AuthorRepository extends CrudRepository<Author, Long> {
 
 	void updateAllAuthor(List<Author> authors);
 	
-	@Query("select a from Author a inner join Book b on b.ISBN = :isbn")
+	@Query("select a from Author a inner join Book b on b.isbn = :isbn")
 	List<Author> findAllAuthorsgivenISBN(@Param("isbn")long isbn); 
 }
