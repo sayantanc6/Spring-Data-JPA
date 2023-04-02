@@ -16,6 +16,6 @@ public interface BookRepository extends CrudRepository<Book, Long> {
 
 	public void updateAll(List<Book> books,String author,String title,int batchSize);	
 	
-	@Query(value = "select b from Book as b inner join Author as a on a.Authorid = :authorID ")
+	@Query(value = "select b from Book as b inner join Author as a on a.authorid = :authorID ")
 	public List<Book> findAllBooksgivenauthorID(@Param("authorID")long authorID);
 }
