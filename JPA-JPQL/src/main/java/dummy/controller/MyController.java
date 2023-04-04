@@ -14,6 +14,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -87,21 +88,30 @@ public class MyController {
 	
 	@PutMapping(value = "/updateauthors",produces = MediaType.APPLICATION_JSON_VALUE,
 			headers = "Accept=application/json",consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void updateauthors(@RequestParam("authors")List<Author> authors) {
-		
-		 authRepository.updateAllAuthor(authors);
+	public void updateauthors(@Validated @RequestBody List<AuthorModel> authors) {
+		// saveAll method either updates existing entities(if PK value is in the DB) or inserts non-existing entities(if PK value is not in the DB)
+		 authRepository.saveAll(gson.fromJson(gson.toJson(authors), new TypeToken<List<Author>>() {}.getType())); 
 	} 
 	
-	@DeleteMapping(value = "/deletebooks",produces = MediaType.APPLICATION_JSON_VALUE,
+	@PutMapping(value = "/updatebooks",produces = MediaType.APPLICATION_JSON_VALUE,
 			headers = "Accept=application/json",consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void deletebooks() {
-		 bookRepository.deleteAll();
+	public void updatebooks(@Validated @RequestBody List<BookModel> books) {
+		// saveAll method either updates existing entities(if PK value is in the DB) or inserts non-existing entities(if PK value is not in the DB)
+		bookRepository.saveAll(gson.fromJson(gson.toJson(books), new TypeToken<List<Book>>() {}.getType()));
+	}
+	
+	@DeleteMapping(value = "/deletebooks/{isbn}",produces = MediaType.APPLICATION_JSON_VALUE,
+			headers = "Accept=application/json",consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void deletebooks(@PathVariable("isbn")Long isbn) {
+		System.out.println("isbn : "+isbn);
+		 bookRepository.deleteById(isbn);
 	} 
 	
-	@DeleteMapping(value = "/deleteauthors",produces = MediaType.APPLICATION_JSON_VALUE,
+	@DeleteMapping(value = "/deleteauthors/{authorid}",produces = MediaType.APPLICATION_JSON_VALUE,
 			headers = "Accept=application/json",consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void deleteauthors() {
-		 authRepository.deleteAll();
+	public void deleteauthors(@PathVariable("authorid") Long authorid) {
+		System.out.println("authorid : "+authorid);
+		 authRepository.deleteById(authorid);
 	}
 	
 }
