@@ -38,7 +38,8 @@ public class Author {
 	private String lastname;
 	
 	@ManyToMany(targetEntity = Book.class,fetch = FetchType.EAGER,
-			cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy = "authors")
+			cascade = {CascadeType.ALL}, //to delete entities
+			mappedBy = "authors")
 	// to avoid stackoverflowerror for recursive calls using manytomany
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
