@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
@@ -25,6 +26,7 @@ import dummy.model.BookModel;
 @EnableWebMvc
 public class GsonConfig implements WebMvcConfigurer{
 
+	@Bean
 	public Gson gson() {
 		return new GsonBuilder()
 				.setObjectToNumberStrategy(new MyNumberStrategy())
