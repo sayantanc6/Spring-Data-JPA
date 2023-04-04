@@ -43,7 +43,7 @@ public class Book {
 	private String title;
 	
 	@ManyToMany(targetEntity = Author.class,fetch = FetchType.EAGER,
-			cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+			cascade = {CascadeType.ALL}) // to delete entities
 	@JoinTable(name = "book_author",
 			  joinColumns = @JoinColumn(name = "Book"),
 			  inverseJoinColumns = @JoinColumn(name = "Author"))
