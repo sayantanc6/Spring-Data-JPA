@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.FieldError;
@@ -44,7 +43,6 @@ public class MyController {
 	@Autowired
 	Gson gson;
 	
-	@ConditionalOnProperty(name = "withprojections",havingValue = "no")
 	@GetMapping(value = "/findbooks",produces = MediaType.APPLICATION_JSON_VALUE,
 			headers = "Accept=application/json",consumes = MediaType.APPLICATION_JSON_VALUE)
 	public List<Book> findAllbooks(@RequestParam("authorid")Long authorid) {
@@ -79,7 +77,6 @@ public class MyController {
 			authRepository.saveAll(gson.fromJson(gson.toJson(authors), new TypeToken<List<Author>>() {}.getType()));
 	}
 	
-	@ConditionalOnProperty(name = "withprojections",havingValue = "no")
 	@GetMapping(value = "/findallauthors",produces = MediaType.APPLICATION_JSON_VALUE,
 			headers = "Accept=application/json",consumes = MediaType.APPLICATION_JSON_VALUE)
 	public List<Author> findAllauthors(@RequestParam("isbn") Long isbn) {
