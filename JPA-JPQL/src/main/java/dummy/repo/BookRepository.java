@@ -11,11 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import dummy.entity.Book;
 
 @Repository
-@Transactional(noRollbackFor = {Exception.class}) 
+@Transactional(rollbackFor = {Exception.class}) 
 public interface BookRepository extends CrudRepository<Book, Long> {
 
-	public void updateAll(List<Book> books,String author,String title,int batchSize);	
-	
 	@Query(value = "select b from Book as b inner join Author as a on a.authorid = :authorID ")
 	public List<Book> findAllBooksgivenauthorID(@Param("authorID")long authorID);
 }
