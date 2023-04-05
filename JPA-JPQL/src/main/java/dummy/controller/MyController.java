@@ -56,7 +56,7 @@ public class MyController {
 	@GetMapping(value = "/findbookswithAuthorid",produces = MediaType.APPLICATION_JSON_VALUE,
 			headers = "Accept=application/json",consumes = MediaType.APPLICATION_JSON_VALUE)
 	public List<AuthorProjection> findbookswithAuthorids(@RequestParam List<Long> authorids) {
-		System.out.println("list of authorids : \n"+authorids);
+				// HQL doesn't support LIMIT clause
 		return bookRepository.findAllBooksgivenAuthorids(authorids)
 				.stream().distinct().sorted(Comparator.comparingLong(AuthorProjection::getAuthorid)).limit(authorids.size())
 				.collect(Collectors.toList()); 
@@ -100,6 +100,7 @@ public class MyController {
 	@GetMapping(value = "/findAllauthorswithISBN",produces = MediaType.APPLICATION_JSON_VALUE,
 			headers = "Accept=application/json",consumes = MediaType.APPLICATION_JSON_VALUE)
 	public List<BookProjection> findAllauthorswithISBNs(@RequestParam List<Long> isbns) {
+                   		// HQL doesn't support LIMIT clause
 		 return authRepository.findAllAuthorsgivenISBNs(isbns)
 				 .stream().distinct().sorted(Comparator.comparingLong(BookProjection::getIsbn)).limit(isbns.size())
 				 .collect(Collectors.toList());
