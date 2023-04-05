@@ -1,8 +1,10 @@
 package dummy.controller;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,8 @@ import dummy.entity.Author;
 import dummy.entity.Book;
 import dummy.model.AuthorModel;
 import dummy.model.BookModel;
+import dummy.projection.AuthorProjection;
+import dummy.projection.BookProjection;
 import dummy.repo.AuthorRepository;
 import dummy.repo.BookRepository;
 
@@ -47,6 +51,16 @@ public class MyController {
 			headers = "Accept=application/json",consumes = MediaType.APPLICATION_JSON_VALUE)
 	public List<Book> findAllbooks(@RequestParam("authorid")Long authorid) {
 		return bookRepository.findAllBooksgivenauthorID(authorid); 
+	}
+	
+	@GetMapping(value = "/findbookswithAuthorid",produces = MediaType.APPLICATION_JSON_VALUE,
+			headers = "Accept=application/json",consumes = MediaType.APPLICATION_JSON_VALUE)
+	public List<AuthorProjection> findbookswithAuthorids(@RequestParam List<Long> authorids) {
+		System.out.println("list of authorids : \n"+authorids);
+		return bookRepository.findAllBooksgivenAuthorids(authorids)
+				.stream().distinct().sorted(Comparator.comparingLong(AuthorProjection::getAuthorid)).limit(authorids.size())
+				.collect(Collectors.toList()); 
+ 
 	}
 	 
 	@PostMapping(value = "/addbooks",produces = MediaType.APPLICATION_JSON_VALUE,
@@ -81,6 +95,14 @@ public class MyController {
 			headers = "Accept=application/json",consumes = MediaType.APPLICATION_JSON_VALUE)
 	public List<Author> findAllauthors(@RequestParam("isbn") Long isbn) {
 		 return authRepository.findAllAuthorsgivenISBN(isbn);
+	}
+	
+	@GetMapping(value = "/findAllauthorswithISBN",produces = MediaType.APPLICATION_JSON_VALUE,
+			headers = "Accept=application/json",consumes = MediaType.APPLICATION_JSON_VALUE)
+	public List<BookProjection> findAllauthorswithISBNs(@RequestParam List<Long> isbns) {
+		 return authRepository.findAllAuthorsgivenISBNs(isbns)
+				 .stream().distinct().sorted(Comparator.comparingLong(BookProjection::getIsbn)).limit(isbns.size())
+				 .collect(Collectors.toList());
 	}
 	
 	@PutMapping(value = "/updateauthors",produces = MediaType.APPLICATION_JSON_VALUE,
